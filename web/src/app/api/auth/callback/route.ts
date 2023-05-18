@@ -5,12 +5,16 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code') // código do github
 
+  // redirectTo Cookie
+  const redirectTo = request.cookies.get('redirectTo')?.value
+
   const registerResponse = await api.post('/register', {
     code,
   })
   const { token } = registerResponse.data
 
-  const redirectURL = new URL('/', request.url)
+  // se existir essa info vai pra redirect se não pra essa url
+  const redirectURL = redirectTo ?? new URL('/', request.url)
 
   const cookieExpires = 60 * 60 * 24 * 30 // 30 dias
   return NextResponse.redirect(redirectURL, {

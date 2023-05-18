@@ -22,7 +22,7 @@ app.register(authRoutes)
 app
   .listen({
     port: 3333,
-    host: '0.0.0.0',
+    host: '0.0.0.0', // quando for mudar para web comentar essa linha
   })
   .then(() => {
     console.log('runing on port 3333')
