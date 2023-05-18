@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -9,5 +9,13 @@ export async function GET(request: NextRequest) {
     code,
   })
   const { token } = registerResponse.data
-  console.log(token)
+
+  const redirectURL = new URL('/', request.url)
+
+  const cookieExpires = 60 * 60 * 24 * 30 // 30 dias
+  return NextResponse.redirect(redirectURL, {
+    headers: {
+      'Set-Cookie': `token=${token}; Path=/; max-age${cookieExpires}`, // Path=/ Disponível em toda app
+    },
+  })
 }
