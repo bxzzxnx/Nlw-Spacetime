@@ -1,17 +1,24 @@
+import 'dotenv/config'
 import fastify from 'fastify'
+import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import { memoriesRoutes } from './routes/memories'
+import { authRoutes } from './routes/auth'
 
 console.log('console test')
 
 const app = fastify()
 
 app.register(cors, {
-  origin: ['http://localhost:3333'], // true
+  origin: true, // true ['http://localhost:3333']
 })
-app.register(memoriesRoutes)
+app.register(jwt, {
+  secret: 'spacetime', // maneira de diferenciar tokens/ criptografia
+})
 
-// d5120918-3a45-4326-ae74-8215a606640a
+app.register(memoriesRoutes)
+app.register(authRoutes)
+
 app
   .listen({
     port: 3333,
