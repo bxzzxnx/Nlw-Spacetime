@@ -48,7 +48,7 @@ export async function uploadRoutes(app: FastifyInstance) {
     const fileUrl = new URL(`/uploads/${fileName}`, fullUrl).toString() // /uploads com o nome do arquivo
 
     return {
-      ok: true,
+      fileUrl,
     }
   })
 }
